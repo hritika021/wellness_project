@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  background-size: 200% auto;
+  animation: gradient 3s linear infinite;
+}
+
+.liquid-text {
+  background: linear-gradient(90deg, #38bdf8, #0ea5e9, #0284c7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  position: relative;
+}
+.liquid-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: -3px;
+  background: linear-gradient(90deg, #7dd3fc, #38bdf8, #0369a1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%);
+  animation: liquid 4s ease-in-out infinite alternate;
+}
+@keyframes liquid {
+  0% { clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%); }
+  100% { clip-path: polygon(0% 50%, 100% 50%, 100% 100%, 0% 100%); }
+}
+
+
+@keyframes float {
+  0%,100%{transform: translateY(0);}
+  50%{transform: translateY(-5px);}
+}
+ 
+.animate-float{
+  animation: float 3s ease-in-out infinite;
+}
+
+html{
+  scroll-behavior:smooth;
+}
