@@ -61,7 +61,9 @@ return (
             <div 
             className="relative h-96 group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl bg-blue-900/10 hover:bg-blue-900/20 transition-all duration-300 hover:-translate-y-2 h-64 cursor-pointer">
             
-   <div style={{
+   <div onClick={()=>{
+    navigate('/services')
+   }} style={{
                     backgroundImage:`url(${icon})`,
                     backgroundSize:"cover",
                     backgroundPosition:"center"
