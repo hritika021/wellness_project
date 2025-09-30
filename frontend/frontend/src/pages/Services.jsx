@@ -62,7 +62,7 @@ return (
             className="relative h-96 group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl bg-blue-900/10 hover:bg-blue-900/20 transition-all duration-300 hover:-translate-y-2 h-64 cursor-pointer">
             
    <div onClick={()=>{
-    navigate('/services')
+    navigate(`/services/${service._id}`)
    }} style={{
                     backgroundImage:`url(${icon})`,
                     backgroundSize:"cover",
@@ -75,7 +75,9 @@ return (
     <h3 className="font-bold text-2xl mb-3">{service.title}</h3>
     <p className="text-sm mb-4 opacity-0 group group-hover:opacity-100 transition-opacity duration-500 line-clamp-1 ">{service.description}</p>
 
-    <button className={`bg-${accent}-500 rounded-full mt-3 py-1 hover:text-blue-800 self-start px-3 transition hover:bg-white/90 text-sm backdrop-blur-sm font-medium `}>Explore →</button>
+    <button onClick={()=>{
+        navigate(`/services/${service._id}`)
+    }} className={`bg-${accent}-500 rounded-full mt-3 py-1 hover:text-blue-800 self-start px-3 transition hover:bg-white/90 text-sm backdrop-blur-sm font-medium `}>Explore →</button>
    </div>
    
 

@@ -6,6 +6,7 @@ import ServicesGrid from './pages/Services'
 import { HorizonSeparator } from './components/WaterSeparator'
 import HowItWorks from './components/HowItWorks'
 import StatsSection from './components/Stats'
+import ServiceProviders from './pages/ServiceProvider'
 
 
 function App() {
@@ -21,8 +22,8 @@ function App() {
 
      </div>
         } />
-        {/* Add more routes as needed */}
-        {/* Example: <Route path="/about" element={<About />} /> */}
+      <Route path='/services' element={<ServicesGrid/>}/>
+      <Route path='/services/:id' element={<ServiceProviders/>}/>
       </Routes>
     </BrowserRouter>
   )
