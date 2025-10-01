@@ -13,8 +13,10 @@ router.get("/services",async (req,res)=>{
 })
 
 router.get("/services/:id", async (req, res) => {
+
   try {
     const service = await Service.findById(req.params.id).populate("provider", "name email");
+    
     if (!service) {
       return res.status(404).json({ message: "Service not found" });
     }

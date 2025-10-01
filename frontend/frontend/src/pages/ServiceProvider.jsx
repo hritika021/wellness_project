@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {useParams} from 'react-router-dom'
 function ServiceProviders(){
-    const id=useParams();
+    const {id}=useParams();
     const [provider,setProvider]=useState([]);
     const [service,setService]=useState(null)
     const [loading,setLoading]=useState(true)
 useEffect(()=>{
+    console.log("Fetching providers for id:", id)
     axios.get(`http://localhost:3000/api/auth/services/services/${id}`)
 .then(res=>{
     console.log(res.data);

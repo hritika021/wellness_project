@@ -55,6 +55,7 @@ return (
 
      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
        {services.map((service,index)=>{
+        console.log("Services inside map:",service)
         const {icon,color,accent}=getIconForService(service.title);
         return (
             <AnimateOnScroll key={service._id} delay={index*100}>
@@ -62,6 +63,7 @@ return (
             className="relative h-96 group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl bg-blue-900/10 hover:bg-blue-900/20 transition-all duration-300 hover:-translate-y-2 h-64 cursor-pointer">
             
    <div onClick={()=>{
+    console.log('Navigating to serviceID: ',service._id)
     navigate(`/services/${service._id}`)
    }} style={{
                     backgroundImage:`url(${icon})`,
