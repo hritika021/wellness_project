@@ -1,33 +1,26 @@
 const express=require("express");
 const authMiddleware = require("../middleware/middleware");
-const { Booking } = require("../db");
+const { Booking, Service } = require("../db");
 const router=express.Router();
 
-router.post('/book',authMiddleware,async(req,res)=>{
-
-    try{ 
- const {serviceId,scheduledDate}=req.body;
- if(req.user.role!=='client'){
-    return res.status(403).json({msg:"Only clients can book services"})
- }
-
-  const booking = await Booking.create({
-      service: serviceId,
-      client: req.user.userId,
-      scheduledDate
-    });
-
-    res.json({
-      msg: "Booking created successfully",
-      booking
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Server error" });
-  
-
+router.post('/book/:serviceId',authMiddleware,async(req,res)=>{
+  try{
+    const service=await Service.findById(req.params.serviceId);
+    if(!service){
+      return res.status(400).json({msg:"Service not found"})
     }
+    const booking=new Booking({
+      serviceId:service._id,
+      client:req.user.userId,
+      scheduledDate
+    })
+    await booking.save();
+    res.json({msg:"Service booked successfully!", booking})
+  }
 
+  catch(err){
+    console.error(err)
+  }
 })
 
 router.get("/my-bookings", authMiddleware, async(req,res)=>{

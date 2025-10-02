@@ -58,4 +58,23 @@ catch(err){
 }
 })
 
+
+router.get('/services/category/:category',async (req,res)=>{
+  const {category}=req.params;
+  try{
+    const validCategories=["Diet Plan / Meal Prep",'Yoga',"Physiotherapy"]
+    if(!validCategories.includes(category)){
+      return res.status(400).json({msg:"Invalid Category"})
+    }
+const services=await Service.find({category})
+.populate("provider", "name email")
+.sort ({createdAt:-1})
+
+res.json({category,services})
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Something went wrong" });
+  }
+})
 module.exports=router

@@ -65,7 +65,11 @@ const serviceSchema=new mongoose.Schema({
     required:true
     },
 
-    category:String,
+    category:{
+        type:String,
+        enum:['Yoga','Massage','Diet Plan / Meal Prep',"Physiotherapy"],
+        required:true
+    },
     createdAt:{
         type:Date,
         default:Date.now()

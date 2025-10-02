@@ -7,6 +7,9 @@ import { HorizonSeparator } from './components/WaterSeparator'
 import HowItWorks from './components/HowItWorks'
 import StatsSection from './components/Stats'
 import ServiceProviders from './pages/ServiceProvider'
+import CategoryServices from './pages/CategoryServices'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
 
 
 function App() {
@@ -24,6 +27,9 @@ function App() {
         } />
       <Route path='/services' element={<ServicesGrid/>}/>
       <Route path='/services/:id' element={<ServiceProviders/>}/>
+      <Route path="/services/category/:category" element={<CategoryServices />} />
+<Route path='/login' element={<Login/>}/>
+<Route path='/signup' element={<Signup/>}/>
       </Routes>
     </BrowserRouter>
   )

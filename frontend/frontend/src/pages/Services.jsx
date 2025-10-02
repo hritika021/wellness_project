@@ -13,30 +13,32 @@ function ServiceGrid(){
 
     const  navigate=useNavigate();
     const [services,setServices]=useState([])
+    const [loading,setLoading]=useState(true);
+ const [categories, setCategories] = useState([
+    { name: "Yoga", icon: yoga, accent: "teal" },
+    { name: "Physiotherapy", icon: physio, accent: "indigo" },
+    { name: "Diet Plan / Meal Prep", icon: dietPlan, accent: "emerald" },
+  ]); 
+
+  
 useEffect(()=>{
     axios.get("http://localhost:3000/api/auth/services/services")
-    .then((res)=>setServices(res.data.services))
+  .then((res)=>{
+    setServices(res.data.services);
+    setLoading(false);
+  })
     .catch((err)=>console.log("Error fetching services:",err))
 },[])
+if(loading) {
+    return <p className="text-center mt-10">Loading services...</p>;
+}
+const grouped=categories.map(category=>({
+    ...category,
+    services: services.filter(s=>s.category===category.name)
+}))
 
-
-const iconMap=[
-    {keywords:["yoga"], icon:yoga, color:'from-teal-100 to-teal-3000', accent:'teal'},
-    { keywords: ["massage"], icon: massage,color:"from-blue-100 to-blue-300", accent:"blue"},
-    { keywords: ["physiotherapy"], icon: physio, color:"from-indigo-100 to-indigo-300",accent:"indigo" },
-    { keywords: ["diet plan", "nutrition", "tiffin", "food"], icon: dietPlan ,color:"from-emerald-100 to-emerald-300", accent:'emerald'}
-  
-]
     
 
-const getIconForService=(title)=>{
-    const lowerTitle=title.toLowerCase();
-   const entry = iconMap.find(entry => 
-      entry.keywords.some(keyword => lowerTitle.includes(keyword))
-    );
-    return entry || { icon: null, color: "from-gray-100 to-gray-300" };
-
-}
 
 
 return (
@@ -54,19 +56,18 @@ return (
 
 
      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-       {services.map((service,index)=>{
-        console.log("Services inside map:",service)
-        const {icon,color,accent}=getIconForService(service.title);
+       {grouped.map((category,index)=>{
+        const {accent,color}=category
         return (
-            <AnimateOnScroll key={service._id} delay={index*100}>
+            <AnimateOnScroll key={category.name} delay={index*100}>
             <div 
             className="relative h-96 group rounded-xl overflow-hidden shadow-lg hover:shadow-2xl bg-blue-900/10 hover:bg-blue-900/20 transition-all duration-300 hover:-translate-y-2 h-64 cursor-pointer">
             
    <div onClick={()=>{
-    console.log('Navigating to serviceID: ',service._id)
-    navigate(`/services/${service._id}`)
+
+    navigate(`/services/category/${encodeURIComponent(category.name)}`)
    }} style={{
-                    backgroundImage:`url(${icon})`,
+                    backgroundImage:`url(${category.icon})`,
                     backgroundSize:"cover",
                     backgroundPosition:"center"
                 }} className={`absolute inset-0 bg-center ${color} opacity-90 group group-hover:scale-110`}>
@@ -74,11 +75,11 @@ return (
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition duration-300"/>
                 </div>
    <div className="absolute bottom-0 left-0 right-0 p-5 text-white transform translate-y-10 group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/80 to-transparent   ">
-    <h3 className="font-bold text-2xl mb-3">{service.title}</h3>
-    <p className="text-sm mb-4 opacity-0 group group-hover:opacity-100 transition-opacity duration-500 line-clamp-1 ">{service.description}</p>
+    <h3 className="font-bold text-2xl mb-3">{category.name}</h3>
+    <p className="text-sm mb-4 opacity-0 group group-hover:opacity-100 transition-opacity duration-500 line-clamp-1 ">{category.services.length} Providers Available</p>
 
     <button onClick={()=>{
-        navigate(`/services/${service._id}`)
+        navigate(`/services/category/${encodeURIComponent(category.name)}`)
     }} className={`bg-${accent}-500 rounded-full mt-3 py-1 hover:text-blue-800 self-start px-3 transition hover:bg-white/90 text-sm backdrop-blur-sm font-medium `}>Explore →</button>
    </div>
    
